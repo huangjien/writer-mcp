@@ -1,0 +1,88 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "writer-mcp"
+version = "0.1.0"
+description = "MCP Server for Novel Character Knowledge Base"
+authors = ["Your Name <your.email@example.com>"]
+readme = "README.md"
+packages = [{include = "writer_mcp", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+mcp = "^1.0.0"
+psycopg2-binary = "^2.9.0"
+openai = "^1.0.0"
+pydantic = "^2.0.0"
+python-dotenv = "^1.0.0"
+numpy = "^1.24.0"
+pgvector = "^0.2.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.0.0"
+pytest-asyncio = "^0.21.0"
+mypy = "^1.0.0"
+ruff = "^0.1.0"
+black = "^23.0.0"
+pre-commit = "^3.0.0"
+testcontainers = "^3.7.0"
+httpx = "^0.25.0"
+
+[tool.poetry.scripts]
+writer-mcp = "writer_mcp.server:main"
+
+[tool.ruff]
+select = ["E", "F", "W", "C90", "I", "N", "UP", "YTT", "S", "BLE", "FBT", "B", "A", "COM", "C4", "DTZ", "T10", "EM", "EXE", "ISC", "ICN", "G", "INP", "PIE", "T20", "PYI", "PT", "Q", "RSE", "RET", "SLF", "SIM", "TID", "TCH", "ARG", "PTH", "ERA", "PD", "PGH", "PL", "TRY", "NPY", "RUF"]
+ignore = []
+fixable = ["ALL"]
+unfixable = []
+target-version = "py311"
+line-length = 88
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+include = '\.pyi?$'
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --strict-markers"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.coverage.run]
+source = ["src"]
+omit = ["tests/*", "*/migrations/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
